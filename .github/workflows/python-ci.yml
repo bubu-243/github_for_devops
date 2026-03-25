@@ -6,25 +6,20 @@ on:
       - master
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  copy:
+    runs-on: self-hosted
 
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3
-
-      - name: Show files
+      - name: Copy Excel file from Downloads to Documents
         run: |
-          echo "Current directory:"
-          pwd
-          ls -l
+          echo "Copying file..."
+          cp "/home/satyaprakash.patra@apmosys.mahape/Downloads/BHIM Test cases .xlsx" \
+             "/home/satyaprakash.patra@apmosys.mahape/Documents/"
 
-      - name: Copy project folder
+      - name: Verify file copied
         run: |
-          mkdir /home/runner/output
-          cp -r * /home/runner/output/
+          echo "Checking destination folder:"
+          ls "/home/satyaprakash.patra@apmosys.mahape/Documents/"
 
-      - name: Verify copied files
-        run: |
-          echo "Copied files:"
-          ls /home/runner/output/
+
+          
