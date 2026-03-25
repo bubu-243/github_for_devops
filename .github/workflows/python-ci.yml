@@ -1,0 +1,30 @@
+name: Python CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Show files
+        run: |
+          echo "Current directory:"
+          pwd
+          ls -l
+
+      - name: Copy project folder
+        run: |
+          mkdir /home/runner/output
+          cp -r * /home/runner/output/
+
+      - name: Verify copied files
+        run: |
+          echo "Copied files:"
+          ls /home/runner/output/
