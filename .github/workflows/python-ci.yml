@@ -7,9 +7,13 @@ on:
 
 jobs:
   copy:
-    runs-on: self-hosted
+    runs-on: self-hosted 
 
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Gitleaks
+        uses: gitleaks/gitleaks-action@v2
       - name: Copy Excel file from Downloads to Documents
         run: |
           echo "Copying file..."
