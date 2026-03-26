@@ -35,10 +35,10 @@ jobs:
           clamscan --version
 
       # Step 5: Update ClamAV database
-      - name: Update ClamAV database
-        run: |
-          echo "Updating ClamAV database..."
-          sudo freshclam
+      # - name: Update ClamAV database
+      #   run: |
+      #     echo "Updating ClamAV database..."
+      #     sudo freshclam
 
       # Step 6: Run ClamAV scan (CLI)
       - name: Run ClamAV scan
