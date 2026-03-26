@@ -25,7 +25,7 @@ jobs:
       - name: Run Gitleaks scan
         run: |
           echo "Running Gitleaks scan..."
-          gitleaks detect --source . --verbose --exit-on-find
+          gitleaks detect 
 
       # Step 4: Check ClamAV installation
       - name: Check ClamAV installation
