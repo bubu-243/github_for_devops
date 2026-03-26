@@ -3,7 +3,7 @@ name: Python CI/CD Pipeline
 on:
   push:
     branches:
-      - none   
+      - master   # ✅ FIXED (change to main if needed)
 
 jobs:
   scan-and-copy:
@@ -14,20 +14,27 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # Step 2: Run Gitleaks using CLI (bash)
+      # Step 2: Verify Gitleaks installation (debug step)
+      - name: Check Gitleaks installation
+        run: |
+          echo "Checking Gitleaks..."
+          which gitleaks
+          gitleaks version
+
+      # Step 3: Run Gitleaks using CLI
       - name: Run Gitleaks scan (CLI)
         run: |
           echo "Running Gitleaks scan..."
-          gitleaks detect 
+          gitleaks detect --source . --verbose --exit-on-find
 
-      # Step 3: Copy Excel file
+      # Step 4: Copy Excel file
       - name: Copy Excel file
         run: |
           echo "Copying Excel file..."
           mkdir -p "$HOME/Documents"
           cp "$HOME/Downloads/BHIM Test cases.xlsx" "$HOME/Documents/"
 
-      # Step 4: Verify copied file
+      # Step 5: Verify copied file
       - name: Verify file copied
         run: |
           echo "Checking destination folder:"
