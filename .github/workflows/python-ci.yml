@@ -6,11 +6,11 @@ on:
       - master
 
 jobs:
-  build-and-scan:
-    runs-on: self-hosted
+  scan-and-copy:
+    runs-on: self-hosted  # This ensures the workflow runs on your self-hosted runner
 
     steps:
-      # Step 1: Checkout the repo
+      # Step 1: Checkout the repository
       - name: Checkout code
         uses: actions/checkout@v4
 
@@ -19,36 +19,16 @@ jobs:
         uses: gitleaks/gitleaks-action@v2
         with:
           args: detect --source . --verbose --exit-on-find
+        # Note: Ensure gitleaks is installed on your self-hosted runner
 
-      # Step 3: Set up Python environment
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.11'   # replace with your Python version
-
-      # Step 4: Install dependencies
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-
-      # Step 5: Run Python tests (optional)
-      - name: Run Python tests
-        run: |
-          if [ -f pytest.ini ] || [ -d tests ]; then
-            pytest
-          else
-            echo "No tests found, skipping"
-          fi
-
-      # Step 6: Copy Excel file from Downloads to Documents
+      # Step 3: Copy Excel file from Downloads to Documents
       - name: Copy Excel file
         run: |
           echo "Copying Excel file..."
           mkdir -p "$HOME/Documents"
           cp "$HOME/Downloads/BHIM Test cases.xlsx" "$HOME/Documents/"
 
-      # Step 7: Verify copied file
+      # Step 4: Verify copied file
       - name: Verify file copied
         run: |
           echo "Checking destination folder:"
