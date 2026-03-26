@@ -14,39 +14,46 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # Step 2: Verify Gitleaks installation
+      # Step 2: Check Gitleaks installation
       - name: Check Gitleaks installation
         run: |
           echo "Checking Gitleaks..."
           which gitleaks
           gitleaks version
 
-      # Step 3: Run Gitleaks scan
-      - name: Run Gitleaks scan (CLI)
+      # Step 3: Run Gitleaks scan (CLI)
+      - name: Run Gitleaks scan
         run: |
           echo "Running Gitleaks scan..."
-          gitleaks detect 
+          gitleaks detect --source . --verbose --exit-on-find
 
-      # Step 4: Update ClamAV database
+      # Step 4: Check ClamAV installation
+      - name: Check ClamAV installation
+        run: |
+          echo "Checking ClamAV..."
+          which clamscan
+          clamscan --version
+
+      # Step 5: Update ClamAV database
       - name: Update ClamAV database
         run: |
           echo "Updating ClamAV database..."
           sudo freshclam
 
-      # Step 5: Run ClamAV scan
+      # Step 6: Run ClamAV scan (CLI)
       - name: Run ClamAV scan
         run: |
           echo "Running ClamAV scan..."
           clamscan -r . --infected --exit-code=1
 
-      # Step 6: Copy Excel file
+      # Step 7: Copy Excel file
       - name: Copy Excel file
         run: |
           echo "Copying Excel file..."
           mkdir -p "$HOME/Documents"
           cp "$HOME/Downloads/BHIM Test cases.xlsx" "$HOME/Documents/"
 
-      # Step 7: Verify copied file
+      # Step 8: Verify copied file
       - name: Verify file copied
         run: |
           echo "Checking destination folder:"
