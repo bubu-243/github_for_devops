@@ -3,7 +3,7 @@ name: Python CI/CD Pipeline
 on:
   push:
     branches:
-      - master   # ✅ FIXED (change to main if needed)
+      - master
 
 jobs:
   scan-and-copy:
@@ -14,27 +14,39 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # Step 2: Verify Gitleaks installation (debug step)
+      # Step 2: Verify Gitleaks installation
       - name: Check Gitleaks installation
         run: |
           echo "Checking Gitleaks..."
           which gitleaks
           gitleaks version
 
-      # Step 3: Run Gitleaks using CLI
+      # Step 3: Run Gitleaks scan
       - name: Run Gitleaks scan (CLI)
         run: |
           echo "Running Gitleaks scan..."
-          gitleaks detect 
+          gitleaks detect --source . --verbose --exit-on-find
 
-      # Step 4: Copy Excel file
+      # Step 4: Update ClamAV database
+      - name: Update ClamAV database
+        run: |
+          echo "Updating ClamAV database..."
+          sudo freshclam
+
+      # Step 5: Run ClamAV scan
+      - name: Run ClamAV scan
+        run: |
+          echo "Running ClamAV scan..."
+          clamscan -r . --infected --exit-code=1
+
+      # Step 6: Copy Excel file
       - name: Copy Excel file
         run: |
           echo "Copying Excel file..."
           mkdir -p "$HOME/Documents"
           cp "$HOME/Downloads/BHIM Test cases.xlsx" "$HOME/Documents/"
 
-      # Step 5: Verify copied file
+      # Step 7: Verify copied file
       - name: Verify file copied
         run: |
           echo "Checking destination folder:"
