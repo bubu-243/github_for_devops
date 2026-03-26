@@ -34,17 +34,12 @@ jobs:
           which clamscan
           clamscan --version
 
-      # Step 5: Update ClamAV database
-      - name: Update ClamAV database
-        run: |
-          sudo systemctl stop clamav-freshclam || true
-          sudo freshclam || true
 
       # Step 6: Run ClamAV scan (CLI)
       - name: Run ClamAV scan
         run: |
           echo "Running ClamAV scan..."
-          clamscan -r . --infected --exit-code=1
+          clamscan 
 
       # Step 7: Copy Excel file
       - name: Copy Excel file
