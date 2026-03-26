@@ -3,25 +3,24 @@ name: Python CI/CD Pipeline
 on:
   push:
     branches:
-      - master
+      - none   
 
 jobs:
   scan-and-copy:
-    runs-on: self-hosted  # This ensures the workflow runs on your self-hosted runner
+    runs-on: self-hosted
 
     steps:
       # Step 1: Checkout the repository
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # Step 2: Run Gitleaks scan
-      - name: Run Gitleaks scan
-        uses: gitleaks/gitleaks-action@v2
-        with:
-          args: detect --source . --verbose --exit-on-find
-        # Note: Ensure gitleaks is installed on your self-hosted runner
+      # Step 2: Run Gitleaks using CLI (bash)
+      - name: Run Gitleaks scan (CLI)
+        run: |
+          echo "Running Gitleaks scan..."
+          gitleaks detect --source . --verbose --exit-on-find
 
-      # Step 3: Copy Excel file from Downloads to Documents
+      # Step 3: Copy Excel file
       - name: Copy Excel file
         run: |
           echo "Copying Excel file..."
