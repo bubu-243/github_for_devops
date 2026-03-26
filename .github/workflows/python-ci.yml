@@ -25,7 +25,7 @@ jobs:
       - name: Run Gitleaks scan (CLI)
         run: |
           echo "Running Gitleaks scan..."
-          gitleaks detect --source . --verbose --exit-on-find
+          gitleaks detect 
 
       # Step 4: Copy Excel file
       - name: Copy Excel file
